@@ -1,0 +1,36 @@
+{
+  "name": "my-starter-react",
+  "version": "1.0.0",
+  "description": "My starter react project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "webpack",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nm123github/my-starter-react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nm123github/my-starter-react/issues"
+  },
+  "homepage": "https://github.com/nm123github/my-starter-react#readme",
+  "dependencies": {
+    "babel-core": "~6.21.0",
+    "babel-loader": "~6.2.10",
+    "babel-preset-es2015": "~6.18.0",
+    "babel-preset-react": "~6.16.0",
+    "css-loader": "~0.26.1",
+    "express": "~4.14.0",
+    "react": "~15.4.1",
+    "react-dom": "~15.4.1",
+    "style-loader": "~0.13.1",
+    "ts-loader": "~1.3.3",
+    "webpack": "~1.14.0",
+    "webpack-combine-loaders": "~2.0.3",
+    "webpack-dev-middleware": "~1.9.0"
+  }
+}
