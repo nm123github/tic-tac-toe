@@ -1,4 +1,6 @@
 
+// action-creators!!
+
 export function createBoard(rows, cols) {
 	return {
 		type: 'CREATE_BOARD',
@@ -6,6 +8,12 @@ export function createBoard(rows, cols) {
 			rows: rows,
 			cols: cols
 		}
+	};
+}
+
+export function resetBoard() {
+	return {
+		type: 'RESET_BOARD'
 	};
 }
 

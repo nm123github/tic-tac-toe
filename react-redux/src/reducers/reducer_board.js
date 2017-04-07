@@ -22,6 +22,11 @@ export default function reducer_board(state = 0, action) {
 
 	if ( action.type === 'CREATE_BOARD' ) {
 		return createBoard(action.payload.rows, action.payload.cols);
+	}
+
+	if ( action.type === 'RESET_BOARD' ) {
+		// create another empty board!
+		return createBoard(state.length, state[0].length);
 	}		
 
 	return state;
