@@ -14,7 +14,8 @@ class Board extends Component {
 	}
 
 	componentWillMount() {
-		this.props.createBoard(this.props.rows, this.props.cols)
+		if ( this.props.board === 0 )
+			this.props.createBoard(this.props.rows, this.props.cols)
 	}
 
 	componentWillReceiveProps(nextProps) {
