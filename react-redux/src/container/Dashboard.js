@@ -16,13 +16,22 @@ class Dashboard extends Component {
 		this.props.setWinner('')
 	}
 
+	compare2d(a, b) {
+		return a.join(',') === b.join(',')
+	}
+
 	render() {
 		const winner = this.props.winner
 							?<h1>And the winner is: {this.props.winner}</h1>
 							:<p></p>
+		const suggestedmove = this.props.suggestedmove.move && this.compare2d(this.props.board, this.props.suggestedmove.board) && !this.props.winner
+							?<h3>Suggested move: [{this.props.suggestedmove.move[0]} - {this.props.suggestedmove.move[1]}]</h3>
+							:<p></p>
+
 		return (
 			<div>
 				{winner}
+				{suggestedmove}
 				<input type="button" value="reset" onClick={this.reset.bind(this)} />
 			</div>
 		)
@@ -32,7 +41,9 @@ class Dashboard extends Component {
 
 function mapStateToProps(state) {
 	return {
-		winner: state.winner
+		winner: state.winner,
+		suggestedmove: state.suggestedmove,
+		board: state.board
 	}
 }
 

@@ -34,11 +34,27 @@ export function switchPlayer() {
 	};
 }
 
+export function suggestMove(move, board) {
+	return {
+		type: 'SUGGESTED_MOVE',
+		payload: {
+			suggestedmove: move,
+			board: board
+		}
+	};
+}
+
+export function resetSuggestedMove() {
+	return {
+		type: 'RESET_SUGGESTED_MOVE'
+	};
+}
+
 export function setWinner(winner) {
 	return {
 		type: 'SET_WINNER',
 		payload: {
-			winner: winner
+			winner
 		}
 	};
 }

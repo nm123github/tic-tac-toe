@@ -5,7 +5,15 @@ import styles from '../css/board.css'
 
 import { connect } from 'react-redux'	// <-- is the glue between react and redux
 import { bindActionCreators } from 'redux'
-import { setWinner, createBoard, play, switchPlayer } from '../actions/index'
+import { 
+	setWinner,
+	suggestMove,
+	resetSuggestedMove,
+	createBoard, 
+	play,
+	switchPlayer
+} from '../actions/index'
+import { getRandomIntInclusive, getRandomInt } from '../util/random';
 
 class Board extends Component {
 
@@ -22,6 +30,14 @@ class Board extends Component {
     	let winner = this.checkWinner(nextProps); 
     	if (winner) {
     		this.props.setWinner(props.board[0][0]);
+    	} else {
+    		this.getSuggestedMove(nextProps.board, nextProps.rows, nextProps.cols).then((res) => {
+    				// Why have board part of suggestMove?
+    				// Because this is the suggested move for a particular board state!
+	    			this.props.suggestMove(res, nextProps.board);
+    		}).catch((err) => {
+
+    		});
     	}
 	}
 
@@ -52,11 +68,38 @@ class Board extends Component {
 		return board;
 	}
 
+	boardFull(board) {
+		for ( var i = 0 ; i < board.length ; i++ )
+			for ( var j = 0 ; j < board[0].length ; j++ )
+				if ( board[i][j] === '' )
+					return false;
+		return true;
+	}
+
+	// imagine this to be a network call
+	getSuggestedMove(board, rows, cols) {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				if ( this.boardFull(board) ) {
+					reject('');
+					return;
+				}
+				let r, c;
+				do {
+					r = getRandomInt(0, rows);
+					c = getRandomInt(0, cols);
+				} while (board[r][c] !== '');
+				resolve(r + '' + c);
+			}, 1000);
+		});
+	}
+
 	play(ij) {
 		let i = ij[0];
 		let j = ij[1];
 		this.props.play(i, j, this.props.currentPlayer);
 		this.props.switchPlayer();
+		this.props.resetSuggestedMove();
 	}
 
 	getClassName() {
@@ -88,7 +131,9 @@ function mapDispatchToProps(dispatch) {
 		createBoard: createBoard,
 		play: play,
 		switchPlayer: switchPlayer,
-		setWinner: setWinner
+		setWinner: setWinner,
+		suggestMove: suggestMove,
+		resetSuggestedMove: resetSuggestedMove
 	}, dispatch)
 }
 
