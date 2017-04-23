@@ -1,4 +1,6 @@
 
+import { getSuggestedMove } from '../api';
+
 // action-creators!!
 
 export function createBoard(rows, cols) {
@@ -34,19 +36,21 @@ export function switchPlayer() {
 	};
 }
 
-export function suggestMove(move, board) {
+export function fetchSuggestedMove(board, rows, cols) {
+	return getSuggestedMove(board, rows, cols).then((res) => {
+		// Why have board part of suggestMove?
+		// Because this is the suggested move for a particular board state!
+		return suggestMove(res, board);
+	});//.catch((err) => {});
+}
+
+function suggestMove(move, board) {
 	return {
 		type: 'SUGGESTED_MOVE',
 		payload: {
 			suggestedmove: move,
 			board: board
 		}
-	};
-}
-
-export function resetSuggestedMove() {
-	return {
-		type: 'RESET_SUGGESTED_MOVE'
 	};
 }
 

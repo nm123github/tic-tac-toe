@@ -9,9 +9,5 @@ export default function reducer_suggested_move(state = '', action) {
 		};
 	}
 
-	if ( action.type === 'RESET_SUGGESTED_MOVE' ) {
-		return '';
-	}
-
 	return state;
 }
