@@ -7,7 +7,7 @@ import App from './container/App';
 import { loadState, saveState } from './util/localstorage';
 import configureStore from './store/configureStore';
 
-const state = loadState();
+const state = loadState() ? undefined : undefined;
 const store = configureStore(state);
 store.subscribe(() => {
 	saveState(store.getState());
