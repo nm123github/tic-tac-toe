@@ -6,7 +6,7 @@ import reducers from '../reducers';
 const logger = (store) => {
 	return (next) => {
 		return (action) => {
-			if ( typeof action.then === "function" ) {
+			if ( typeof action ==="function" || action.then === "function" ) {
 				return next(action);
 			}
 			console.group(action.type);
@@ -35,19 +35,40 @@ const promise = (store) => {
 	}
 }
 
+//thunk wrapper
+const thunk = (store) => {
+	return (next) => {
+		return (action) => {
+			if ( typeof action === "function" ) {
+				// action(next); <-- please dont do this!!
+				action(store.dispatch);
+			} else {
+				next(action);
+			}
+		}
+	}
+}
+
 const wrapDispatchWithMiddlewares = (store, middlewares: []) => {
 	middlewares.forEach((middleware) => store.dispatch = middleware(store)(store.dispatch))
 }
 
 export default function configureStore(initialState: any) {
-	const middlewares = [];
 	//const createStoreWithMiddleware = applyMiddleware()(createStore);
 	//const store = createStoreWithMiddleware(reducers, initialState);
-	const store = createStore(reducers, initialState);
+
+	const middlewares = [];
 	if ( process.env.NODE_ENV !== 'production' ) {
 		middlewares.push(logger);
 	}
-	middlewares.push(promise);
-	wrapDispatchWithMiddlewares(store, middlewares);
+	//middlewares.push(promise);
+	middlewares.push(thunk);
+
+	// why write our own when we could use applyMiddleware()!
+	//wrapDispatchWithMiddlewares(store, middlewares);
+
+	//applyMiddleware returns an enhancer!
+	const store = createStore(reducers, initialState, applyMiddleware(...middlewares));
+
 	return store;
 }

@@ -27,12 +27,21 @@ class Board extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-    	let winner = this.checkWinner(nextProps); 
+		
+		let winner = this.checkWinner(nextProps); 
     	if (winner) {
     		this.props.setWinner(props.board[0][0]);
-    	} else {
+    	}
+
+    	// this.isLoading	nextProps.isLoading		fetchSuggestedMove
+		// F 				F 						=> fetch
+		// F 				T 						=> NO
+		// T 				F 						=> NO
+		// T 				T 						=> How did we get here!
+    	if ( !this.props.isLoading && !nextProps.isLoading ) {
     		this.props.fetchSuggestedMove(nextProps.board, nextProps.rows, nextProps.cols);
     	}
+    	
 	}
 
 	checkWinner(props) {
@@ -43,7 +52,7 @@ class Board extends Component {
 
 	drawBoard() {
 
-		if ( !this.props.board )
+		if ( !this.props.board || this.props.isLoading )
 			return <h1>Loading...</h1>;
 
 		let board = [];
@@ -88,7 +97,8 @@ function mapStateToProps(state) {
 	// Whatever gets retrieved from here will show up as props inside of Board
 	return {
 		board: state.board,
-		currentPlayer: state.currentPlayer
+		currentPlayer: state.currentPlayer,
+		isLoading: state.suggestedmove.isLoading
 	}
 }
 
@@ -100,7 +110,6 @@ function mapDispatchToProps(dispatch) {
 		switchPlayer: switchPlayer,
 		setWinner: setWinner,
 		fetchSuggestedMove: fetchSuggestedMove,
-		resetSuggestedMove: resetSuggestedMove
 	}, dispatch)
 }
 

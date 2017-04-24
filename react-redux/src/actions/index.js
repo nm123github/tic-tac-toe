@@ -36,15 +36,24 @@ export function switchPlayer() {
 	};
 }
 
-export function fetchSuggestedMove(board, rows, cols) {
-	return getSuggestedMove(board, rows, cols).then((res) => {
-		// Why have board part of suggestMove?
-		// Because this is the suggested move for a particular board state!
-		return suggestMove(res, board);
-	});//.catch((err) => {});
+export function fetchingSuggestedMove() {
+	return {
+		type: 'FETCHING_SUGGESTED_MOVE',
+	}
 }
 
-function suggestMove(move, board) {
+export function fetchSuggestedMove(board, rows, cols) {
+	return (dispatch) => {
+		dispatch(fetchingSuggestedMove());
+		return getSuggestedMove(board, rows, cols).then((res) => {
+			// Why have board part of suggestMove?
+			// Because this is the suggested move for a particular board state!
+			dispatch(suggestMove(res, board));
+		});//.catch((err) => {});
+	}
+}
+
+export function suggestMove(move, board) {
 	return {
 		type: 'SUGGESTED_MOVE',
 		payload: {

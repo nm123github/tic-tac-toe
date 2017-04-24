@@ -16,6 +16,6 @@ export const getSuggestedMove = (board, rows, cols) => {
 				c = getRandomInt(0, cols);
 			} while (board[r][c] !== '');
 			resolve(r + '' + c);
-		}, 1000);
+		}, 250);
 	});
 }
