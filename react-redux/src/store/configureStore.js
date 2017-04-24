@@ -41,7 +41,7 @@ const thunk = (store) => {
 		return (action) => {
 			if ( typeof action === "function" ) {
 				// action(next); <-- please dont do this!!
-				action(store.dispatch);
+				action(store.dispatch, store.getState());
 			} else {
 				next(action);
 			}

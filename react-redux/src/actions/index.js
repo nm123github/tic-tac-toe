@@ -43,9 +43,9 @@ export function fetchingSuggestedMove() {
 }
 
 export function fetchSuggestedMove(board, rows, cols) {
-	return (dispatch) => {
+	return (dispatch, currState) => {
 		dispatch(fetchingSuggestedMove());
-		return getSuggestedMove(board, rows, cols).then((res) => {
+		getSuggestedMove(board, rows, cols).then((res) => {
 			// Why have board part of suggestMove?
 			// Because this is the suggested move for a particular board state!
 			dispatch(suggestMove(res, board));
